@@ -53,3 +53,20 @@ html, body,
   display: inline-block;
   font-size: 56px;
 }
+
+@media screen and (min-width: 650px) {
+
+  .left,
+  .right {
+    height: 50%;
+  }
+
+  .left {
+    flex: 0 1 100%;
+  }
+
+  .right {
+    flex 0 1 100%;
+  }
+
+}

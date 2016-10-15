@@ -6,10 +6,19 @@ const Banner = document.querySelector('.banner');
 
 socket.emit('client');
 
+const removeOldAttempts = () => {
+  let attempts = document.querySelectorAll('.attempt');
+
+  if (attempts.length > 30) {
+    document.querySelector('.attempt:last-child').remove();
+  }
+};
+
 const updateAttemptLog = (data) => {
   let topAttempt = document.querySelector('.attempt:first-child');
 
   let newAttempt = document.createElement('li');
+  newAttempt.setAttribute('style', `background-color: ${getRandomColor()}`)
   newAttempt.classList.add('attempt');
 
   let attemptText = document.createElement('p');
@@ -17,6 +26,7 @@ const updateAttemptLog = (data) => {
   newAttempt.appendChild(attemptText);
 
   attemptsContainer.insertBefore(newAttempt, topAttempt);
+  removeOldAttempts();
 };
 
 const videoSplatter = (mainFrame) => {
