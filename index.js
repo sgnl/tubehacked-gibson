@@ -29,10 +29,17 @@ App.post('/bouncer', (req, res) => {
     if (err) {
       resBody.success = false
       resBody.message = 'no sauce for you'
+      SockPuppet.emit('attempt', {
+        username: req.body.username,
+        guess: req.body.guess
+      })
+
     } else {
       resBody.success = true
       resBody.message = 'GRATS YOU GET SAUCE!!!! PLAYING VIDEO ~~~ secret has been increased'
+
       SockPuppet.emit('video_change', {video_id: req.body.video_id})
+
     }
 
     return res.json(resBody)
