@@ -24,11 +24,6 @@ App.use(BodyParser.urlencoded({extended: true}));
 
 IO.on('connection', socket => {
   SockPuppet.init(socket);
-  socket.emit('news', { hello: 'world' });
-
-  socket.on('client', function (data) {
-    console.log('client connected')
-  });
 });
 
 App.get('/', (req, res) => {
@@ -47,12 +42,14 @@ App.post('/bouncer', (req, res) => {
       resBody.success = false;
       resBody.message = 'no sauce for you';
 
+      payload.success = false;
       SockPuppet.emit('attempt', payload);
 
     } else {
       resBody.success = true;
       resBody.message = 'GRATS YOU GET SAUCE!!!! PLAYING VIDEO ~~~ secret has been increased';
 
+      payload.success = true;
       payload.video_id = req.body.video_id;
       SockPuppet.emit('video_change', payload);
     }
@@ -68,5 +65,5 @@ Server.listen(PORT, _ => {
   process.stdout.write(`
     tube-sock-puppet server running
     http://${NetworkIP}:${PORT}
-  \r\n`)
+  \r\n`);
 });

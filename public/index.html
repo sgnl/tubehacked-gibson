@@ -2,68 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Document</title>
-  <style>
-    html, body,
-    .container,
-    .left,
-    .right {
-      height: 100%;
-    }
-
-    .container {
-      display: flex;
-      flex-flow: row nowrap;
-    }
-
-    .left,
-    .right {
-      flex: 0 1 50%;
-    }
-  </style>
+  <title>TSP » Tube Sock Puppet</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="container">
-    <div class="left">
-      <iframe class="video_iframe" width="560" height="315" src="https://www.youtube.com/embed/dVqqWUyDPzA" frameborder="0" allowfullscreen></iframe>
-    </div>
-    <div class="right">
-      <ul class="attempts">
-        <!-- <li class="attempt"></li> -->
-      </ul>
-    </div>
+
+  <div class="left">
+    <iframe class="video_iframe" width="560" height="315" src="https://www.youtube.com/embed/dVqqWUyDPzA" frameborder="0" allowfullscreen></iframe>
   </div>
+
+  <div class="right">
+    <ul class="attempts">
+      <!-- <li class="attempt"></li> -->
+    </ul>
+  </div>
+
+  <div class="banner"></div>
+
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/1.0.0/anime.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
   <script src="/client.js"></script>
-  <script>
-    var socket = io.connect('http://localhost:8081')
-    var videoFrame = document.querySelector('.video_iframe')
-    var attemptsContainer = document.querySelector('.attempts')
-
-    socket.on('news', function (data) {
-      console.log(data)
-      socket.emit('client')
-    })
-
-    socket.on('video_change', function(data) {
-      videoFrame.setAttribute('src', `https://www.youtube.com/embed/${data.video_id}?rel=0&autoplay=1`)
-    })
-
-    socket.on('attempt', function(data) {
-      var topAttempt = document.querySelector('.attempt:first-child');
-      var newAttempt = document.createElement('li')
-      newAttempt.classList.add('attempt')
-      var attemptText = document.createElement('p')
-
-      attemptText.innerHTML = `<span>${data.username}</span> failed with <span>${data.guess}</span>`
-      newAttempt.appendChild(attemptText)
-
-      attemptsContainer.insertBefore(newAttempt, topAttempt)
-    })
-
-    function updateAttemptLog() {
-
-    }
-  </script>
 </body>
 </html>
