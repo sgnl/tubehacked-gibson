@@ -16,7 +16,6 @@ IO.on('connection', (socket) => {
   socket.on('client', function (data) {
     console.log('client connected')
   })
-
 })
 
 App.get('/', (req, res) => {
