@@ -1,11 +1,14 @@
+
+// url must match port found in `../index.js`
 const socket = io.connect('http://localhost:8081');
+
+// get DOM references
 const videoFrame = document.querySelector('.video_iframe');
 const leftContainer = document.querySelector('.left');
 const attemptsContainer = document.querySelector('.attempts');
 const Banner = document.querySelector('.banner');
 
-socket.emit('client');
-
+// prune DOM elements to keep the front-end snappy
 const removeOldAttempts = () => {
   let attempts = document.querySelectorAll('.attempt');
 
@@ -14,6 +17,7 @@ const removeOldAttempts = () => {
   }
 };
 
+// adds a new 'card' on the board with the username + incorrect guess
 const updateAttemptLog = (data) => {
   let topAttempt = document.querySelector('.attempt:first-child');
 
@@ -29,6 +33,7 @@ const updateAttemptLog = (data) => {
   removeOldAttempts();
 };
 
+// animation for the video when the secret number is matched
 const videoSplatter = (mainFrame) => {
   anime({
     targets: mainFrame,
@@ -41,6 +46,7 @@ const videoSplatter = (mainFrame) => {
   });
 };
 
+// animation for the attempts when the secret number is matched
 const attemptsKill = (frames) => {
   anime({
     targets: frames,
@@ -53,11 +59,13 @@ const attemptsKill = (frames) => {
     loop: false
   });
 
+  // clears the attempts window
   setTimeout(_ => {
     frames.forEach(frame => frame.remove());
   }, 5000);
 }
 
+// animation for the center banner when triggered by a matched number
 const displayWinner = (banner, winner) => {
   let p = document.createElement('p');
   p.classList.add('letter');
@@ -92,6 +100,7 @@ const displayWinner = (banner, winner) => {
   });
 }
 
+// Hexadecimal hex generator
 const getRandomColor = () => {
   var letters = '0123456789ABCDEF';
   var color = '#';
@@ -101,6 +110,14 @@ const getRandomColor = () => {
   return color;
 }
 
+/**
+ * Server <-> Client Events
+ */
+
+// notifies the server that a connection was established
+socket.emit('connection');
+
+// matched number event
 socket.on('video_change', function(data) {
   videoFrame.setAttribute('src', `https://www.youtube.com/embed/${data.video_id}?rel=0&autoplay=1`);
 
@@ -109,6 +126,7 @@ socket.on('video_change', function(data) {
   displayWinner(Banner, data.username)
 });
 
+// failed attempts event
 socket.on('attempt', function(data) {
   updateAttemptLog(data);
 })
