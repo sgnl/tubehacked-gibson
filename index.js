@@ -8,17 +8,6 @@ const BodyParser = require('body-parser');
 const Secret = require('./lib/secret')();
 const SockPuppet = require('./lib/puppet')();
 
-const Interfaces = require('os').networkInterfaces();
-
-const NetworkIP = Object.keys(Interfaces)
-  .map(key => {
-    return Interfaces[key]
-      .filter(connection => {
-        return connection.family === 'IPv4' && !connection.internal;
-      })[0];
-  })
-  .filter(x => x)[0].address;
-
 App.use(Express.static('public'));
 App.use(BodyParser.urlencoded({extended: true}));
 
@@ -59,6 +48,17 @@ App.post('/bouncer', (req, res) => {
 });
 
 const PORT = 8081;
+
+// get network IP to print to terminal
+const Interfaces = require('os').networkInterfaces();
+const NetworkIP = Object.keys(Interfaces)
+  .map(key => {
+    return Interfaces[key]
+      .filter(connection => {
+        return connection.family === 'IPv4' && !connection.internal;
+      })[0];
+  })
+  .filter(x => x)[0].address;
 
 Server.listen(PORT, _ => {
 
