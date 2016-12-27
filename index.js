@@ -5,8 +5,8 @@ const IO = require('socket.io')(Server);
 
 const BodyParser = require('body-parser');
 
-const Secret = require('./lib/secret')();
-const SockPuppet = require('./lib/puppet')();
+const Secret = require('./services/secret-service')();
+const SockPuppet = require('./services/socket-service')();
 
 App.use(Express.static('public'));
 App.use(BodyParser.urlencoded({extended: true}));
@@ -42,7 +42,6 @@ App.post('/bouncer', (req, res) => {
       payload.video_id = req.body.video_id;
       SockPuppet.emit('video_change', payload);
     }
-
     return res.json(resBody);
   });
 });
