@@ -62,7 +62,7 @@ const NetworkIP = Object.keys(Interfaces)
 Server.listen(PORT, _ => {
 
   process.stdout.write(`
-    tube-sock-puppet server running
+    Tubehacked Gibson Version server running @
     http://${NetworkIP}:${PORT}
   \r\n`);
 });
