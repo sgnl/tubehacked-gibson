@@ -9,7 +9,7 @@
  * @return {Object} exposes interface methods
  */
 module.exports = _ => {
-  let passnum = 20;
+  let passnum = Math.floor(Math.random() * 2000);
   let multiple = 2;
 
   return {
@@ -22,6 +22,9 @@ module.exports = _ => {
       } else {
         cb(true);
       }
+    },
+    get: () => {
+      return passnum;
     }
   };
 };

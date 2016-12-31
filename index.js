@@ -64,5 +64,6 @@ Server.listen(PORT, _ => {
   process.stdout.write(`
     Tubehacked Gibson Version server running @
     http://${NetworkIP}:${PORT}
+    passnum: ${Secret.get()}
   \r\n`);
 });
